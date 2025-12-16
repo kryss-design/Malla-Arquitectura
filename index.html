@@ -1,26 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Malla Arquitectura</title>
-  <style>
-    body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:20px}
-    h1{text-align:center}
-    .grid{display:grid;grid-template-columns:repeat(11,1fr);gap:10px}
-    .semester{background:#fff;border-radius:8px;padding:10px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
-    .semester h2{text-align:center;font-size:14px}
-    .course{padding:6px;margin:6px 0;border-radius:6px;cursor:pointer;font-size:12px}
-    .locked{background:#ddd;color:#777;cursor:not-allowed}
-    .pending{background:#eee}
-    .inprogress{background:#ffe08a}
-    .approved{background:#9ae6b4}
-  </style>
+<meta charset="UTF-8">
+<title>Malla Arquitectura</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f4f4f4;
+  margin:0;
+  padding:20px;
+}
+h1{text-align:center}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(11,1fr);
+  gap:10px;
+}
+
+.semester{
+  background:#fff;
+  border-radius:8px;
+  padding:10px;
+  box-shadow:0 2px 5px rgba(0,0,0,.1);
+}
+
+.semester h2{
+  text-align:center;
+  font-size:14px;
+}
+
+.course{
+  padding:6px;
+  margin:6px 0;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+}
+
+.locked{
+  background:#ddd;
+  color:#777;
+  cursor:not-allowed;
+}
+
+.pending{background:#eee}
+.inprogress{background:#ffe08a}
+.approved{background:#9ae6b4}
+</style>
 </head>
+
 <body>
+
 <h1>Malla Arquitectura – Interactiva</h1>
 <div class="grid" id="grid"></div>
 
 <script>
+// =======================
+// DATOS DE LA MALLA
+// =======================
 const data = [
   {sem:1,courses:[
     {id:'ARQ111',name:'Matemática Aplicada I',req:[]},
@@ -102,11 +141,29 @@ const data = [
   ]}
 ];
 
-
+// =======================
+// LÓGICA
+// =======================
 let state = JSON.parse(localStorage.getItem('malla')) || {};
 
-function canUnlock(req){ return req.every(r=>state[r]==='approved'); }
-function nextState(s){ return s==='pending'?'inprogress':s==='inprogress'?'approved':'pending'; }
+function semesterApproved(n){
+  const sem = data.find(s=>s.sem===n);
+  return sem.courses.every(c=>state[c.id]==='approved');
+}
+
+function canUnlock(req){
+  return req.every(r=>{
+    if(r.startsWith('SEM')){
+      return semesterApproved(parseInt(r.replace('SEM','')));
+    }
+    return state[r]==='approved';
+  });
+}
+
+function nextState(s){
+  return s==='pending' ? 'inprogress' :
+         s==='inprogress' ? 'approved' : 'pending';
+}
 
 function render(){
   const g=document.getElementById('grid');
@@ -135,5 +192,6 @@ function render(){
 }
 render();
 </script>
+
 </body>
 </html>
