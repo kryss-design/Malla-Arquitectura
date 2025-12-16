@@ -1,1 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Malla Arquitectura</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:20px}
+    h1{text-align:center}
+    .grid{display:grid;grid-template-columns:repeat(11,1fr);gap:10px}
+    .semester{background:#fff;border-radius:8px;padding:10px;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+    .semester h2{text-align:center;font-size:14px}
+    .course{padding:6px;margin:6px 0;border-radius:6px;cursor:pointer;font-size:12px}
+    .locked{background:#ddd;color:#777;cursor:not-allowed}
+    .pending{background:#eee}
+    .inprogress{background:#ffe08a}
+    .approved{background:#9ae6b4}
+  </style>
+</head>
+<body>
+<h1>Malla Arquitectura – Interactiva</h1>
+<div class="grid" id="grid"></div>
 
+<script>
+const data = [
+  {sem:1,courses:[
+    {id:'ARQ111',name:'Matemática Aplicada I',req:[]},
+    {id:'ARQ112',name:'Representación Arquitectónica',req:[]},
+    {id:'ARQ113',name:'Historia y Teoría I',req:[]},
+    {id:'ARQ114',name:'Comprensión Lectora',req:[]},
+    {id:'ARQ115',name:'Taller I',req:[]},
+    {id:'IFG100',name:'Inglés I',req:[]}
+  ]},
+  {sem:2,courses:[
+    {id:'ARQ121',name:'Matemática Aplicada II',req:['ARQ111']},
+    {id:'ARQ122',name:'Geometría y Representación I',req:['ARQ112']},
+    {id:'ARQ123',name:'Historia y Teoría II',req:['ARQ113']},
+    {id:'ARQ124',name:'Taller II',req:['ARQ115']},
+    {id:'IFG200',name:'Inglés II',req:['IFG100']}
+  ]},
+  {sem:3,courses:[
+    {id:'ARQ211',name:'Urbanismo I',req:[]},
+    {id:'ARQ212',name:'Geometría y Representación II',req:['ARQ122']},
+    {id:'ARQ213',name:'Estructura I',req:['ARQ121']},
+    {id:'ARQ214',name:'Taller III',req:['ARQ124']},
+    {id:'IFG300',name:'Inglés III',req:['IFG200']}
+  ]}
+];
+
+let state = JSON.parse(localStorage.getItem('malla')) || {};
+
+function canUnlock(req){ return req.every(r=>state[r]==='approved'); }
+function nextState(s){ return s==='pending'?'inprogress':s==='inprogress'?'approved':'pending'; }
+
+function render(){
+  const g=document.getElementById('grid');
+  g.innerHTML='';
+  data.forEach(s=>{
+    const d=document.createElement('div');
+    d.className='semester';
+    d.innerHTML=`<h2>Semestre ${s.sem}</h2>`;
+    s.courses.forEach(c=>{
+      const st=state[c.id]||'pending';
+      const ok=canUnlock(c.req);
+      const div=document.createElement('div');
+      div.className=`course ${st} ${!ok?'locked':''}`;
+      div.textContent=c.name;
+      if(ok){
+        div.onclick=()=>{
+          state[c.id]=nextState(st);
+          localStorage.setItem('malla',JSON.stringify(state));
+          render();
+        };
+      }
+      d.appendChild(div);
+    });
+    g.appendChild(d);
+  });
+}
+render();
+</script>
+</body>
+</html>
