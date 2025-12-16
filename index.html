@@ -27,24 +27,81 @@ const data = [
     {id:'ARQ112',name:'Representación Arquitectónica',req:[]},
     {id:'ARQ113',name:'Historia y Teoría I',req:[]},
     {id:'ARQ114',name:'Comprensión Lectora',req:[]},
-    {id:'ARQ115',name:'Taller I',req:[]},
+    {id:'ARQ115',name:'Taller de Arquitectura I',req:[]},
     {id:'IFG100',name:'Inglés I',req:[]}
   ]},
   {sem:2,courses:[
     {id:'ARQ121',name:'Matemática Aplicada II',req:['ARQ111']},
     {id:'ARQ122',name:'Geometría y Representación I',req:['ARQ112']},
     {id:'ARQ123',name:'Historia y Teoría II',req:['ARQ113']},
-    {id:'ARQ124',name:'Taller II',req:['ARQ115']},
+    {id:'ARQ124',name:'Taller de Arquitectura II',req:['ARQ115']},
     {id:'IFG200',name:'Inglés II',req:['IFG100']}
   ]},
   {sem:3,courses:[
     {id:'ARQ211',name:'Urbanismo I',req:[]},
     {id:'ARQ212',name:'Geometría y Representación II',req:['ARQ122']},
     {id:'ARQ213',name:'Estructura I',req:['ARQ121']},
-    {id:'ARQ214',name:'Taller III',req:['ARQ124']},
+    {id:'ARQ214',name:'Taller de Arquitectura III',req:['ARQ124']},
     {id:'IFG300',name:'Inglés III',req:['IFG200']}
+  ]},
+  {sem:4,courses:[
+    {id:'ARQ221',name:'Urbanismo II',req:['ARQ211']},
+    {id:'ARQ222',name:'Modelación Digital',req:['ARQ212']},
+    {id:'ARQ223',name:'Estructura II',req:['ARQ213']},
+    {id:'ARQ224',name:'Expresión Oral',req:['ARQ114']},
+    {id:'ARQ225',name:'Taller de Arquitectura IV',req:['SEM3']}
+  ]},
+  {sem:5,courses:[
+    {id:'ARQ311',name:'Urbanismo III',req:['ARQ221']},
+    {id:'ARQ312',name:'BIM / Modelación',req:['ARQ222']},
+    {id:'ARQ313',name:'Estructura III',req:['ARQ223']},
+    {id:'ARQ314',name:'Taller de Arquitectura V',req:['ARQ225']},
+    {id:'MFG114',name:'Introducción a la Fe',req:[]}
+  ]},
+  {sem:6,courses:[
+    {id:'ARQ321',name:'Sistemas Constructivos I',req:[]},
+    {id:'ARQ322',name:'BIM / Revisión',req:['ARQ312']},
+    {id:'ARQ323',name:'Topografía',req:['ARQ212']},
+    {id:'ARQ324',name:'Tecnología en Diseño y Materialización',req:['ARQ313']},
+    {id:'ARQ325',name:'Taller de Arquitectura VI',req:['ARQ314']},
+    {id:'MFG216',name:'Ética Cristiana',req:['MFG114']}
+  ]},
+  {sem:7,courses:[
+    {id:'ARQ411',name:'Sistemas Constructivos II',req:['ARQ321']},
+    {id:'ARQ412',name:'BIM / Coordinación',req:['ARQ322']},
+    {id:'ARQ413',name:'Edificio y Entorno I',req:['ARQ311']},
+    {id:'ARQ414',name:'Metodología de la Investigación',req:['ARQ325']},
+    {id:'ARQ415',name:'Taller de Arquitectura VII',req:['ARQ325']}
+  ]},
+  {sem:8,courses:[
+    {id:'ARQ421',name:'Sistemas Constructivos III',req:['ARQ411']},
+    {id:'ARQ422',name:'BIM / Dirección y Gestión',req:['ARQ412']},
+    {id:'ARQ423',name:'Edificio y Entorno II',req:['ARQ413']},
+    {id:'ARQ424',name:'Taller de Arquitectura VIII',req:['SEM7']},
+    {id:'CFG1',name:'Certificación I',req:[]}
+  ]},
+  {sem:9,courses:[
+    {id:'ARQ511',name:'Electivo I',req:['SEM8']},
+    {id:'ARQ512',name:'Eficiencia Energética',req:['ARQ423']},
+    {id:'ARQ513',name:'Arquitectura Sustentable I',req:['ARQ423']},
+    {id:'ARQ514',name:'Gestión de Proyectos',req:[]},
+    {id:'ARQ515',name:'Taller de Arquitectura IX',req:['ARQ424']},
+    {id:'CFG2',name:'Certificación II',req:['CFG1']}
+  ]},
+  {sem:10,courses:[
+    {id:'ARQ521',name:'Electivo II',req:['ARQ511']},
+    {id:'ARQ522',name:'Normativa en Proyectos',req:[]},
+    {id:'ARQ523',name:'Arquitectura Sustentable II',req:['ARQ513']},
+    {id:'ARQ524',name:'Formulación y Evaluación de Proyectos',req:['ARQ514']},
+    {id:'ARQ525',name:'Taller de Arquitectura X',req:['ARQ515']},
+    {id:'CFG3',name:'Certificación III',req:['CFG2']}
+  ]},
+  {sem:11,courses:[
+    {id:'ARQ611',name:'Electivo III',req:['ARQ521']},
+    {id:'ARQ612',name:'Taller de Titulación',req:['SEM10']}
   ]}
 ];
+
 
 let state = JSON.parse(localStorage.getItem('malla')) || {};
 
